@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:inbestment/controllers/2login_controller.dart';
 import 'package:inbestment/widgets/custom_btn.dart';
 import 'package:inbestment/widgets/custom_field.dart';
-import 'package:inbestment/widgets/my_card.dart';
+import 'package:inbestment/widgets/my_round_card.dart';
 import 'package:inbestment/widgets/my_scaffold.dart';
 
 import '../shared/app_text_styles.dart';
@@ -37,7 +37,7 @@ class LoginPage extends StatelessWidget {
             )
           ],
         ),
-        child2: MyCard(
+        child2: MyRoundCard(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             // child: Container(height:1000,color: Colors.yellow,))

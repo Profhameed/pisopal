@@ -4,7 +4,7 @@ import 'package:inbestment/controllers/3signup_controller.dart';
 import 'package:inbestment/shared/app_text_styles.dart';
 import 'package:inbestment/widgets/custom_btn.dart';
 import 'package:inbestment/widgets/custom_field.dart';
-import 'package:inbestment/widgets/my_card.dart';
+import 'package:inbestment/widgets/my_round_card.dart';
 import 'package:inbestment/widgets/my_scaffold.dart';
 import 'package:inbestment/widgets/scrollview_expanded.dart';
 
@@ -36,7 +36,7 @@ class SignUpPage extends StatelessWidget {
             )
           ],
         ),
-        child2: MyCard(
+        child2: MyRoundCard(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             // child: Container(height:1000,color: Colors.yellow,))
@@ -81,7 +81,7 @@ class SignUpPage extends StatelessWidget {
                     validator: (v) {
                       if (v == null || v.isEmpty || v.length == 0) {
                         return 'invalid password';
-                      }else if(v.length <8){
+                      } else if (v.length < 8) {
                         return "password length should be atleast 8 letters.";
                       }
                       return null;
@@ -93,7 +93,10 @@ class SignUpPage extends StatelessWidget {
                     hintText: 'Confirm Password',
                     obscureText: true,
                     validator: (v) {
-                      if (v == null || v.isEmpty || v.length == 0 || controller.passwordController.text != v) {
+                      if (v == null ||
+                          v.isEmpty ||
+                          v.length == 0 ||
+                          controller.passwordController.text != v) {
                         return 'passwords do not match';
                       }
                       return null;

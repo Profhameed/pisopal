@@ -14,16 +14,26 @@ class SignUpController extends GetxController {
   AuthManager authManager = Get.find();
   Repository repository = Get.find();
 
+  TextEditingController dateTimeController = TextEditingController();
+  DateTime dateTime = DateTime.now();
+
+  TextEditingController monthlyIncomeController = TextEditingController();
+
+  TextEditingController monthlyInvestmentController = TextEditingController();
+
+  TextEditingController planYearsController = TextEditingController();
+  String gender = 'Male';
+
   Future<void> signUp() async {
     UserModel uM = UserModel(
       email: emailController.text,
       mobile: phoneController.text,
       password: passwordController.text,
-      gender: "",
-      birthday: "",
-      monthlyIncome: 0,
-      toInvestMonthly: 0,
-      yearsToReturn: 0,
+      gender: gender,
+      birthday: dateTimeController.text,
+      monthlyIncome: double.parse(monthlyIncomeController.text),
+      toInvestMonthly: double.parse(monthlyInvestmentController.text),
+      yearsToReturn: int.parse(planYearsController.text),
     );
     int id = await repository.insertUser(uM);
 
