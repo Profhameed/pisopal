@@ -4,12 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 class DialogHelper {
   //show dialog
-  static void showMyDialog(
+  static Future<void> showMyDialog(
       {String? title = 'Error',
       String? description = 'Something went wrong',
       void Function()? afterDismissCallBack,
-      String? buttonText = 'Okay'}) {
-    Get.dialog(Dialog(
+      String? buttonText = 'Okay'}) async {
+    await Get.dialog(Dialog(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -26,7 +26,8 @@ class DialogHelper {
                   child: Text(buttonText ?? 'Okay'))
             ]),
       ),
-    ));
+    ),
+    barrierDismissible: false);
   }
 
 //show toast
@@ -64,7 +65,7 @@ class DialogHelper {
       {String message = 'Are you sure you want to make the changes?',
       String okBtnText = 'Change',
       String cancelBtnText = 'Cancel',
-        String titleText = 'Confirmation',
+      String titleText = 'Confirmation',
       void Function()? afterOkCallBack,
       void Function()? afterCancelCallBack}) {
     Get.dialog(

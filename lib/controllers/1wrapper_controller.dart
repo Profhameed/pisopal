@@ -30,6 +30,10 @@ class WrapperController extends GetxController {
       authManager.logOut();
       return;
     }
-    Get.offAllNamed('/homePage', arguments: userModel);
+    if(userModel!.lock == false) {
+      Get.offAllNamed('/homePage', arguments: userModel);
+    }else if(userModel!.lock == true){
+      Get.offAndToNamed('/successPage',arguments: userModel);
+    }
   }
 }

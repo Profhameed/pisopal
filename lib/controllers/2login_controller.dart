@@ -18,6 +18,12 @@ class LoginController extends GetxController {
       return;
     }
     await authManager.loginAndSaveToken(userModel.userId.toString());
-    Get.toNamed('homePage', arguments: userModel);
+    //
+    // Get.toNamed('/homePage', arguments: userModel);
+    if(userModel.lock == false) {
+      Get.offAllNamed('/homePage', arguments: userModel);
+    }else if(userModel.lock == true){
+      Get.offAndToNamed('/successPage',arguments: userModel);
+    }
   }
 }

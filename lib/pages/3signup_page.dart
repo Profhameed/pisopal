@@ -48,7 +48,7 @@ class SignUpPage extends StatelessWidget {
                 children: [
                   Text(
                     "GET STARTED",
-                    style: poppinsSemiBold.copyWith(fontSize: 30.0, color: Colors.blueAccent),
+                    style: poppinsSemiBold.copyWith(fontSize: 25.0, color: Colors.blueAccent),
                   ),
                   const SizedBox(height: 10.0),
                   CustomTextField(
@@ -58,6 +58,19 @@ class SignUpPage extends StatelessWidget {
                       validator: (v) {
                         if (v == null || v.isEmpty || !GetUtils.isEmail(v)) {
                           return 'invalid email';
+                        }
+                        return null;
+                      }),
+
+
+                  const SizedBox(height: 10.0),
+                  CustomTextField(
+                      controller: controller.nameController,
+                      hintText: 'Name',
+                      keyboardType: TextInputType.name,
+                      validator: (v) {
+                        if (v == null || v.isEmpty ) {
+                          return 'name required';
                         }
                         return null;
                       }),

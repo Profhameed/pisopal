@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:inbestment/data/models/user_model.dart';
 import 'package:inbestment/data/models/user_option_model.dart';
+import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:synchronized/synchronized.dart';
-import 'package:path/path.dart';
 
 import '../models/option_model.dart';
 import '../models/question_model.dart';
@@ -45,7 +45,10 @@ class DatabaseHelper {
           birthday TEXT,
           monthly_income REAL,
           to_invest_monthly REAL,
-          years_to_return INTEGER
+          years_to_return INTEGER,
+          user_name TEXT,
+          picture TEXT,
+          lock INTEGER
         )
         ''');
     await db.execute('''
@@ -69,19 +72,18 @@ class DatabaseHelper {
           $optionId INTEGER
         )
         ''');
-    // //todo
-    await db.insert(
-        usersTable,
-        UserModel(
-                email: "jan@demo.com",
-                mobile: "03412046310",
-                password: "123456",
-                gender: "Male",
-                birthday: "09/03/1993",
-                monthlyIncome: 1000,
-                toInvestMonthly: 399,
-                yearsToReturn: 20)
-            .toJson());
+    // await db.insert(
+    //     usersTable,
+    //     UserModel(
+    //             email: "jan@demo.com",
+    //             mobile: "03412046310",
+    //             password: "123456",
+    //             gender: "Male",
+    //             birthday: "09/03/1993",
+    //             monthlyIncome: 1000,
+    //             toInvestMonthly: 399,
+    //             yearsToReturn: 20)
+    //         .toJson());
 
     await insertInitialData(db);
   }
@@ -94,7 +96,7 @@ class DatabaseHelper {
       _databaseName,
     );
     //todo
-    Sqflite.setDebugModeOn(true);
+    // Sqflite.setDebugModeOn(true);
     return openDatabase(
       path,
       version: _databaseVersion,
@@ -141,11 +143,22 @@ class DatabaseHelper {
     return res.isNotEmpty ? UserModel.fromJson(res.first) : null;
   }
 
+  Future<UserModel?> getUserOnEmail(String email) async {
+    final Database db = await database;
+    var res = await db.query(usersTable, where: "email = ?", whereArgs: [email]);
+    return res.isNotEmpty ? UserModel.fromJson(res.first) : null;
+  }
+
   Future<UserModel?> getUserOnId(int id) async {
     final Database db = await database;
-    var res = await db
-        .query(usersTable, where: "$userId = ?", whereArgs: [id]);
+    var res = await db.query(usersTable, where: "$userId = ?", whereArgs: [id]);
     return res.isNotEmpty ? UserModel.fromJson(res.first) : null;
+  }
+
+  Future<OptionModel?> getOption(int opId) async {
+    final Database db = await database;
+    var res = await db.query(optionsTable, where: "$optionId = ?", whereArgs: [opId]);
+    return res.isNotEmpty ? OptionModel.fromJson(res.first) : null;
   }
 
   Future<List<OptionModel?>?> getOptionsForQuestion(QuestionModel questionModel) async {
@@ -157,7 +170,7 @@ class DatabaseHelper {
       for (Map<String, dynamic> element in res) {
         oMs.add(OptionModel.fromJson(element));
       }
-        return oMs;
+      return oMs;
     }
     return null;
   }
@@ -177,6 +190,47 @@ class DatabaseHelper {
 //   // var res = await db.rawQuery("select * from $questionsTable A inner join $optionsTable B on {$questionsTable}.$questionId = {$optionsTable}.$questionId");
 //
 // }
+  Future<List<QuestionModel?>?> getAllQuestionsWithOptions() async {
+    final Database db = await database;
+    var res = await db.query(questionsTable);
+    if (res.isNotEmpty) {
+      List<QuestionModel> qMs = [];
+      for (Map<String, dynamic> element in res) {
+        qMs.add(QuestionModel.fromJson(element));
+      }
+      for (var i in qMs) {
+        i.options = await getOptionsForQuestion(i);
+      }
+      return qMs;
+    }
+    return null;
+  }
+
+  Future<void> insertAllUserOptions(List<UserOptionModel?>? userOptions) async {
+    if (userOptions == null) return;
+    for (var element in userOptions) {
+      await insertUserOption(element!);
+    }
+  }
+
+  Future<List<UserOptionModel?>?> getUserOptions(int newUserId) async {
+    final Database db = await database;
+    var res = await db.query(userOptionsTable, where: "$userId = ?", whereArgs: [newUserId]);
+    if (res.isNotEmpty) {
+      List<UserOptionModel> uOM = [];
+      for (var i in res) {
+        uOM.add(UserOptionModel.fromJson(i));
+      }
+      // print(uOM);
+      return uOM;
+    }
+    return null;
+  }
+
+  Future<void> lockUser(int uId) async {
+    final Database db = await database;
+    await db.update(usersTable, {'lock': 1}, where: '$userId = ?', whereArgs: [uId]);
+  }
 
   ///initial
   Future<void> insertQuestionWithOptions(QuestionModel questionModel, Database db) async {

@@ -22,5 +22,20 @@ abstract class Repository extends GetxService {
 
   Future<UserModel?> getUserWithToken(String id);
 
+  Future<List<QuestionModel?>?> getAllQuestions();
+
+  Future<void> insertAllUserOptions(List<UserOptionModel?>? userOptions);
+
+  Future<List<UserOptionModel?>?> getUserOptions(int userId);
+
+  Future<OptionModel?> getOption(int optionId);
+
+  Future<void> lockUserForQuestions(int userId);
+
+  Future<UserModel?> getUserOnEmail(String email);
+
+  Future<List<OptionModel?>?> getOptionsSelectedByUser(int userId);
+
+  // Future<UserPostModel?> getUserPostModel(UserModel userModel);
   Future init();
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inbestment/controllers/3signup_controller.dart';
 import 'package:inbestment/shared/app_text_styles.dart';
+import 'package:inbestment/utils/pic_enc_dec.dart';
 import 'package:inbestment/widgets/custom_btn.dart';
 import 'package:inbestment/widgets/my_round_card.dart';
 import 'package:inbestment/widgets/my_scaffold2.dart';
@@ -21,17 +22,18 @@ class SignUp2Page extends StatelessWidget {
           key: formKey,
           child: Column(
             children: [
-              SizedBox(height: 100),
+              SizedBox(height: Get.height * 0.1),
               MyRoundedTransparentCardWithPic(
                 asset: 'assets/images/rocket.png',
+
                 child: Padding(
-                  padding: const EdgeInsets.all(30.0),
+                  padding: const EdgeInsets.fromLTRB(25.0,50.0,25.0,25.0),
                   child: Column(
                     children: [
                       Text("To make our dreams come true, we first hav to set a goal.",
                           textAlign: TextAlign.center,
                           style: poppinsMedium.copyWith(
-                            fontSize: 18.0,
+                            fontSize: 16.0,
                             color: Colors.white,
                           )),
                       const SizedBox(height: 10.0),
@@ -39,7 +41,7 @@ class SignUp2Page extends StatelessWidget {
                         "LET'S GET STARTED",
                         textAlign: TextAlign.center,
                         style: poppinsSemiBold.copyWith(
-                            fontSize: 30.0, height: 1.0, color: Colors.amberAccent),
+                            fontSize: 25, height: 1.0, color: Colors.amberAccent),
                       ),
                     ],
                   ),
@@ -54,22 +56,36 @@ class SignUp2Page extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      CircleAvatar(
-                        radius: 45,
-                        backgroundColor: Colors.grey.shade300,
+                      Obx(
+                        () => CircleAvatar(
+                          radius: 45,
+                          backgroundColor: Colors.grey.shade300,
+                          backgroundImage: const AssetImage('assets/images/user.png'),
+                          foregroundImage: controller.pic.value == null
+                              ? null
+                              : MemoryImage(
+                                  PicUtility.dataFromBase64String(controller.pic.value ?? "")),
+                        ),
                       ),
                       const SizedBox(width: 20.0),
                       Column(
                         children: [
                           OutlinedButton(
-                              onPressed: () {},
-                              style: OutlinedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(horizontal: 30.0),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16.0)),
-                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-                              child: Text("Upload")),
-                          TextButton(onPressed: () {}, child: Text("Remove Image"))
+                            child: const Text("Upload"),
+                            onPressed: () {
+                              controller.pickImage();
+                            },
+                            style: OutlinedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(horizontal: 25),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16.0)),
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+                          ),
+                          TextButton(
+                              onPressed: () {
+                                controller.pic.value = null;
+                              },
+                              child: const Text("Remove Image"))
                         ],
                       )
                     ],
@@ -90,7 +106,7 @@ class SignUp2Page extends StatelessWidget {
                             Text(
                               "Gender",
                               style:
-                                  poppinsMedium.copyWith(fontSize: 20.0, color: Colors.blueAccent),
+                                  poppinsMedium.copyWith(fontSize: 16.0, color: Colors.blueAccent),
                             ),
                             DropdownButtonFormField(
                               decoration: const InputDecoration(
@@ -127,7 +143,7 @@ class SignUp2Page extends StatelessWidget {
                             Text(
                               "Date Of Birth",
                               style:
-                                  poppinsMedium.copyWith(fontSize: 20.0, color: Colors.blueAccent),
+                                  poppinsMedium.copyWith(fontSize: 16, color: Colors.blueAccent),
                             ),
                             TextFormField(
                               validator: commonValidator,
@@ -141,14 +157,15 @@ class SignUp2Page extends StatelessWidget {
                               keyboardType: TextInputType.none,
                               onTap: () async {
                                 DateTime? dateTime = await showDatePicker(
-                                    context: context,
-                                    initialDate: controller.dateTime,
-                                    firstDate: DateTime.now(),
-                                    lastDate: DateTime(2100));
+                                  context: context,
+                                  initialDate: controller.dateTime,
+                                  firstDate: DateTime(1900),
+                                  lastDate: DateTime.now(),
+                                );
                                 if (dateTime == null) return;
                                 controller.dateTime = dateTime;
                                 controller.dateTimeController.text =
-                                    DateFormat('dd/MM/yyy').format(dateTime);
+                                    DateFormat('MM/dd/yyy').format(dateTime);
                               },
                             ),
                           ],
@@ -172,7 +189,7 @@ class SignUp2Page extends StatelessWidget {
                               "Current Monthly Income",
                               textAlign: TextAlign.center,
                               style:
-                                  poppinsMedium.copyWith(fontSize: 20.0, color: Colors.blueAccent),
+                                  poppinsMedium.copyWith(fontSize: 16, color: Colors.blueAccent),
                             ),
                             TextFormField(
                               validator: commonValidator,
@@ -231,7 +248,7 @@ class SignUp2Page extends StatelessWidget {
                       Text(
                         "When do you plan to return to philippines for good? (years)",
                         textAlign: TextAlign.center,
-                        style: poppinsMedium.copyWith(fontSize: 20.0, color: Colors.blueAccent),
+                        style: poppinsMedium.copyWith(fontSize: 16, color: Colors.blueAccent),
                       ),
                       TextFormField(
                           validator: commonValidator,
@@ -251,13 +268,18 @@ class SignUp2Page extends StatelessWidget {
                 height: 10.0,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: CustomButton(
                     btnColor: Colors.white,
                     borderColor: Colors.transparent,
                     btnText: "NEXT STEP",
                     onTap: () {
                       if (formKey.currentState?.validate() ?? false) {
+                        ///to make the picture mandatory
+                        // if (controller.pic.value == null) {
+                        //   Get.snackbar("Error", "Upload Image Please");
+                        //   return;
+                        // }
                         controller.signUp();
                       }
                     }),

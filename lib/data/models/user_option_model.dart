@@ -11,12 +11,12 @@ String userOptionModelToJson(UserOptionModel data) => json.encode(data.toJson())
 
 class UserOptionModel {
   UserOptionModel({
-    required this.userOptionId,
+     this.userOptionId,
     required this.userId,
     required this.optionId,
   });
 
-  int userOptionId;
+  int? userOptionId;
   int userId;
   int optionId;
 
@@ -30,4 +30,9 @@ class UserOptionModel {
         "user_id": userId,
         "option_id": optionId,
       };
+
+  @override
+  String toString() {
+    return 'UserOptionModel{userOptionId: $userOptionId, userId: $userId, optionId: $optionId}';
+  }
 }

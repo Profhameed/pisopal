@@ -11,17 +11,19 @@
 // }
 
 class UserModel {
-  UserModel({
-    this.userId,
-    required this.email,
-    required this.mobile,
-    required this.password,
-    required this.gender,
-    required this.birthday,
-    required this.monthlyIncome,
-    required this.toInvestMonthly,
-    required this.yearsToReturn,
-  });
+  UserModel(
+      {this.userId,
+      required this.email,
+      required this.mobile,
+      required this.password,
+      required this.gender,
+      required this.birthday,
+      required this.monthlyIncome,
+      required this.toInvestMonthly,
+      required this.yearsToReturn,
+      required this.userName,
+       this.picture,
+      required this.lock});
 
   int? userId;
   String email;
@@ -32,6 +34,9 @@ class UserModel {
   double monthlyIncome;
   double toInvestMonthly;
   int yearsToReturn;
+  String userName;
+  String? picture;
+  bool lock;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         userId: json["user_id"],
@@ -43,6 +48,9 @@ class UserModel {
         monthlyIncome: json["monthly_income"].toDouble(),
         toInvestMonthly: json["to_invest_monthly"].toDouble(),
         yearsToReturn: json["years_to_return"],
+        userName: json['user_name'],
+        picture: json['picture'],
+        lock: json['lock'] == 0 ? false : true,
       );
 
   Map<String, dynamic> toJson() => {
@@ -54,10 +62,13 @@ class UserModel {
         "monthly_income": monthlyIncome,
         "to_invest_monthly": toInvestMonthly,
         "years_to_return": yearsToReturn,
+        "user_name":userName,
+        "lock":lock == false?0:1,
+        if (picture !=null) "picture":picture,
       };
 
   @override
   String toString() {
-    return 'UserModel{userId: $userId, email: $email, mobile: $mobile, password: $password, gender: $gender, birthday: $birthday, monthlyIncome: $monthlyIncome, toInvestMonthly: $toInvestMonthly, yearsToReturn: $yearsToReturn}';
+    return 'UserModel{userId: $userId, email: $email, mobile: $mobile, password: $password, gender: $gender, birthday: $birthday, monthlyIncome: $monthlyIncome, toInvestMonthly: $toInvestMonthly, yearsToReturn: $yearsToReturn, userName: $userName, picture: $picture, lock: $lock}';
   }
 }

@@ -43,10 +43,22 @@ class MyRoundTransparentCard extends StatelessWidget {
 }
 
 class MyRoundedTransparentCardWithPic extends StatelessWidget {
-  const MyRoundedTransparentCardWithPic({Key? key, required this.child, required this.asset})
+  const MyRoundedTransparentCardWithPic(
+      {Key? key,
+      required this.child,
+      required this.asset,
+      this.picSize = 80,
+      this.picBackColor = Colors.amberAccent,
+      this.picColor = Colors.white,
+      this.picPadding = 15.0})
       : super(key: key);
   final Widget child;
   final String asset;
+  final double picSize;
+  final Color picBackColor;
+
+  final Color picColor;
+  final double picPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -55,21 +67,23 @@ class MyRoundedTransparentCardWithPic extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Positioned(
-            left: 0.0,
-            right: 0.0,
-            top: -(60.0),
-            child: Container(
-              height: 80,
-              width: 80,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.amberAccent),
-              child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Image.asset(
-                    asset,
-                    color: Colors.white,
-                  )),
-              // foregroundImage: AssetImage('assets/images/rocket.png'),
-            )),
+          left: 0.0,
+          right: 0.0,
+          top: -(picSize / 2),
+          child: Container(
+            height: picSize,
+            width: picSize,
+            decoration: BoxDecoration(shape: BoxShape.circle, color: picBackColor),
+            child: Padding(
+              padding: EdgeInsets.all(picPadding),
+              child: Image.asset(
+                asset,
+                color: picColor,
+              ),
+            ),
+            // foregroundImage: AssetImage('assets/images/rocket.png'),
+          ),
+        ),
         child
       ],
     ));
