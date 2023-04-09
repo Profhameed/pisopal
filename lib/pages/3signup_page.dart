@@ -28,7 +28,7 @@ class SignUpPage extends StatelessWidget {
               color: Colors.white,
             ),
             Text(
-              'investment.com',
+              'PisoPal',
               style: poppinsMedium.copyWith(
                 fontSize: 18.0,
                 color: Colors.white,
@@ -61,15 +61,13 @@ class SignUpPage extends StatelessWidget {
                         }
                         return null;
                       }),
-
-
                   const SizedBox(height: 10.0),
                   CustomTextField(
                       controller: controller.nameController,
                       hintText: 'Name',
                       keyboardType: TextInputType.name,
                       validator: (v) {
-                        if (v == null || v.isEmpty ) {
+                        if (v == null || v.isEmpty) {
                           return 'name required';
                         }
                         return null;
@@ -120,6 +118,7 @@ class SignUpPage extends StatelessWidget {
                       btnText: "Next Step",
                       onTap: () {
                         if (formKey.currentState?.validate() ?? false) {
+                          controller.signUpType = SignUpType.regular;
                           Get.toNamed('/signUp2Page');
                         }
                       }),
@@ -139,7 +138,10 @@ class SignUpPage extends StatelessWidget {
                   const SizedBox(height: 10.0),
                   CustomButton(
                     btnText: 'CONTINUE WITH FACEBOOK',
-                    onTap: () async {},
+                    onTap: () async {
+                      controller.signUpType = SignUpType.facebook;
+                      controller.facebookSignUpStepOne();
+                    },
                     btnTextSize: 10.0,
                     btnHeight: 36.0,
                     borderRadius: 40.0,
@@ -159,7 +161,10 @@ class SignUpPage extends StatelessWidget {
                   ),
                   CustomButton(
                     btnText: 'CONTINUE WITH GOOGLE',
-                    onTap: () async {},
+                    onTap: () async {
+                      controller.signUpType = SignUpType.google;
+                      controller.googleSignUpStepOne();
+                    },
                     btnTextSize: 10.0,
                     btnHeight: 36.0,
                     borderRadius: 40.0,

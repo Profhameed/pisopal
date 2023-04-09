@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:get/get.dart';
 import 'package:inbestment/controllers/3signup_controller.dart';
 import 'package:inbestment/shared/app_text_styles.dart';
@@ -25,9 +27,8 @@ class SignUp2Page extends StatelessWidget {
               SizedBox(height: Get.height * 0.1),
               MyRoundedTransparentCardWithPic(
                 asset: 'assets/images/rocket.png',
-
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(25.0,50.0,25.0,25.0),
+                  padding: const EdgeInsets.fromLTRB(25.0, 50.0, 25.0, 25.0),
                   child: Column(
                     children: [
                       Text("To make our dreams come true, we first hav to set a goal.",
@@ -93,6 +94,38 @@ class SignUp2Page extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 15.0),
+              Visibility(
+                  visible: controller.phoneController.text == "",
+                  child: MyRoundCard(
+                    padding: 5.0,
+                    color: Colors.amberAccent,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Mobile",
+                            textAlign: TextAlign.center,
+                            style: poppinsMedium.copyWith(fontSize: 16, color: Colors.blueAccent),
+                          ),
+                          TextFormField(
+                              validator: commonValidator,
+                              controller: controller.phoneController,
+                              keyboardType: const TextInputType.numberWithOptions(decimal: false),
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(16.0),
+                                    ),
+                                  ),
+                                  fillColor: Colors.white,
+                                  filled: true)),
+                        ],
+                      ),
+                    ),
+                  )),
+              const SizedBox(height: 15.0),
               Row(
                 children: [
                   Expanded(
@@ -142,8 +175,7 @@ class SignUp2Page extends StatelessWidget {
                           children: [
                             Text(
                               "Date Of Birth",
-                              style:
-                                  poppinsMedium.copyWith(fontSize: 16, color: Colors.blueAccent),
+                              style: poppinsMedium.copyWith(fontSize: 16, color: Colors.blueAccent),
                             ),
                             TextFormField(
                               validator: commonValidator,
@@ -188,13 +220,19 @@ class SignUp2Page extends StatelessWidget {
                             Text(
                               "Current Monthly Income",
                               textAlign: TextAlign.center,
-                              style:
-                                  poppinsMedium.copyWith(fontSize: 16, color: Colors.blueAccent),
+                              style: poppinsMedium.copyWith(fontSize: 16, color: Colors.blueAccent),
                             ),
                             TextFormField(
                               validator: commonValidator,
                               controller: controller.monthlyIncomeController,
                               keyboardType: TextInputType.number,
+
+                              /// be careful! do not change, until checking "currencyToNoComma" in controller
+                              inputFormatters: [
+                                CurrencyInputFormatter(useSymbolPadding: true, leadingSymbol: '₱'
+                                    // mantissaLength: 3 // the length of the fractional side
+                                    )
+                              ],
                               decoration: const InputDecoration(
                                   border: OutlineInputBorder(
                                       borderSide: BorderSide(color: Colors.black),
@@ -225,6 +263,15 @@ class SignUp2Page extends StatelessWidget {
                                 validator: commonValidator,
                                 controller: controller.monthlyInvestmentController,
                                 keyboardType: TextInputType.number,
+
+                                /// be careful! do not change, until checking "currencyToNoComma" in controller
+                                inputFormatters: [
+                                  CurrencyInputFormatter(
+                                    useSymbolPadding: true,
+                                    leadingSymbol: '₱',
+                                    // mantissaLength: 3 // the length of the fractional side
+                                  )
+                                ],
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(color: Colors.black),
@@ -253,11 +300,18 @@ class SignUp2Page extends StatelessWidget {
                       TextFormField(
                           validator: commonValidator,
                           controller: controller.planYearsController,
-                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          keyboardType: const TextInputType.numberWithOptions(decimal: false),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(2),
+                          ],
                           decoration: const InputDecoration(
                               border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                                borderSide: BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(16.0),
+                                ),
+                              ),
                               fillColor: Colors.white,
                               filled: true)),
                     ],

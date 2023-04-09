@@ -102,8 +102,8 @@ class SuccessPage extends StatelessWidget {
                                 Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                     child: CustomButton(btnText: 'NEXT STEP', onTap: () {
-                                      Get.toNamed('/successPage2');
-
+                                      // Get.toNamed('/successPage2');
+                                      Get.toNamed('/dashboardPage', arguments: controller.userModel);
                                     }))
                               ],
                             ),

@@ -16,7 +16,7 @@ class Network {
     return _instance;
   }
 
-  final String url = "https://inbestment.itevolvers.com/api/save_user_details";
+  final String url = "https://inbestment.ofwvote.com/api/save_user_details";
   final String apiToken = "@m1yi4nqD04";
 
   Future<String?> postUserPostModel(UserPostModel userPostModel) async {

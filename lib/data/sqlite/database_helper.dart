@@ -95,7 +95,6 @@ class DatabaseHelper {
       documentsDirectory.path,
       _databaseName,
     );
-    //todo
     // Sqflite.setDebugModeOn(true);
     return openDatabase(
       path,
@@ -290,16 +289,16 @@ class DatabaseHelper {
             OptionModel(option: "I need it back within 6 months", marks: 1),
             OptionModel(option: "I need it back in 7 months to 2 years", marks: 2),
             OptionModel(option: "I need it back in 2 to 5 years", marks: 3),
-            OptionModel(option: "I need it back in 5 years", marks: 4)
+            OptionModel(option: "I need it after 5 years", marks: 4)
           ]),
       db,
     );
     await insertQuestionWithOptions(
       QuestionModel(question: "How much do you know about investments?", options: [
-        OptionModel(option: "Minimal. I have savings and time deposits.", marks: 1),
+        OptionModel(option: "Minimal. I know savings and time deposits.", marks: 1),
         OptionModel(option: "Low. I know the basics of money markets and bonds.", marks: 2),
-        OptionModel(option: "Medium. I have existing mutual funds and UlTFs.", marks: 3),
-        OptionModel(option: "High. I trade stocks.", marks: 4)
+        OptionModel(option: "Medium. I know mutual funds and UITFs.", marks: 3),
+        OptionModel(option: "High. I know stock trading.", marks: 4)
       ]),
       db,
     );

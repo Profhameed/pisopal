@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class MyScaffold2 extends StatelessWidget {
   const MyScaffold2({Key? key, required this.body}) : super(key: key);

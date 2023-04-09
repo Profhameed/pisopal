@@ -29,7 +29,7 @@ class LoginPage extends StatelessWidget {
               color: Colors.white,
             ),
             Text(
-              'investment.com',
+              'PisoPal',
               style: poppinsMedium.copyWith(
                 fontSize: 18.0,
                 color: Colors.white,
@@ -98,7 +98,9 @@ class LoginPage extends StatelessWidget {
                   const SizedBox(height: 10.0),
                   CustomButton(
                     btnText: 'CONTINUE WITH FACEBOOK',
-                    onTap: () async {},
+                    onTap: () async {
+                      controller.facebookSignIn();
+                    },
                     btnTextSize: 10.0,
                     btnHeight: 36.0,
                     borderRadius: 40.0,
@@ -118,7 +120,9 @@ class LoginPage extends StatelessWidget {
                   ),
                   CustomButton(
                     btnText: 'CONTINUE WITH GOOGLE',
-                    onTap: () async {},
+                    onTap: () async {
+                      controller.googleSignIn();
+                    },
                     btnTextSize: 10.0,
                     btnHeight: 36.0,
                     borderRadius: 40.0,

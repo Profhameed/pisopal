@@ -54,8 +54,8 @@ class HomePage extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisSize: MainAxisSize.min,
                   children: [
                     CircleAvatar(
                       radius: 45,
@@ -64,43 +64,44 @@ class HomePage extends StatelessWidget {
                       foregroundImage:(controller.userModel?.picture != null)? MemoryImage(
                           PicUtility.dataFromBase64String(controller.userModel!.picture!)):null,
                     ),
-                    // const SizedBox(width: 16.0),
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "NAME:",
-                            style:
-                                poppinsSemiBold.copyWith(color: Colors.blueAccent, fontSize: 16.0),
-                          ),
-                          Text(
-                            "AGE:",
-                            style:
-                                poppinsSemiBold.copyWith(color: Colors.blueAccent, fontSize: 16.0),
-                          ),
-                          Text(
-                            "GENDER:",
-                            style:
-                                poppinsSemiBold.copyWith(color: Colors.blueAccent, fontSize: 16.0),
-                          )
-                        ],
-                      ),
+                    const SizedBox(width: 16.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "NAME:",
+                          style:
+                              poppinsSemiBold.copyWith(color: Colors.blueAccent, fontSize: 16.0),
+                        ),
+                        Text(
+                          "AGE:",
+                          style:
+                              poppinsSemiBold.copyWith(color: Colors.blueAccent, fontSize: 16.0),
+                        ),
+                        Text(
+                          "GENDER:",
+                          style:
+                              poppinsSemiBold.copyWith(color: Colors.blueAccent, fontSize: 16.0),
+                        )
+                      ],
                     ),
-                    Flexible(
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             controller.userModel?.userName.toUpperCase() ?? '',
+                            overflow: TextOverflow.ellipsis,
                             style: poppinsSemiBold.copyWith(fontSize: 16.0),
                           ),
                           Text(
                             calculateAge(controller.userModel!.birthday).toString(),
+                            overflow: TextOverflow.ellipsis,
                             style: poppinsSemiBold.copyWith(fontSize: 16.0),
                           ),
                           Text(
                             controller.userModel?.gender ?? '',
+                            overflow: TextOverflow.ellipsis,
                             style: poppinsSemiBold.copyWith(fontSize: 16.0),
                           )
                         ],

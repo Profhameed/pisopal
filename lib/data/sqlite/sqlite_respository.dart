@@ -73,7 +73,7 @@ class SqliteRepository extends Repository {
   @override
   Future init() async {
     await dbHelper.database;
-    print('initialized');
+    // print('initialized');
     return Future.value();
   }
 

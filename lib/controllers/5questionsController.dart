@@ -44,6 +44,7 @@ class QuestionsController extends GetxController {
     if (currentQuestion.value == questions.value!.length - 1) {
       ///make user post model and upload to network
       UserPostModel userPostModel = await makeUserPostModel(homeController.userModel!, userOptions);
+      /// upload to network
       String? success = await Network().postUserPostModel(userPostModel);
       if (success != "pass") return;
 
