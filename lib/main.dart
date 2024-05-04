@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'PisoPal',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        useMaterial3: false,
         // primarySwatch: Colors.blue,
         colorScheme: kColorScheme,
         textTheme: kTextTheme,

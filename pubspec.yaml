@@ -16,7 +16,7 @@ dependencies:
   sqflite: ^2.0.3+1
   path_provider: ^2.0.11
   shared_preferences: ^2.0.15
-  google_fonts: ^3.0.1
+#  google_fonts: ^3.0.1
   intl: ^0.17.0
   confetti: ^0.7.0
   image_picker_android: ^0.8.5+3
@@ -29,6 +29,7 @@ dependencies:
   flutter_charts: ^0.4.0
   sign_in_with_apple: ^4.2.0
   flutter_facebook_auth: ^5.0.6
+  google_fonts: ^4.0.4
 
 dev_dependencies:
   flutter_test:
